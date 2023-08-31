@@ -44,6 +44,7 @@ jobs:
           tag: ${{ github.event.inputs.release_tag }}
           tag_exists_error: false
           message: ${{ github.event.inputs.release_msg }}
+          github_token: ${{ secrets.BOT_TOKEN }}
 
       - name: "Create Release"
         id: release
