@@ -24,10 +24,10 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
-      -name: Upload Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         if: ${{ env.BRANCH_NAME == 'main' }} && ${{ github.event_name == ""}}
         with:
           name: ${{runner.os}}-hello
-          path: hw_out/
+          path: ./hello
           retention-days: 1
