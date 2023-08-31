@@ -31,3 +31,7 @@ jobs:
           name: ${{runner.os}}-hello
           path: ./hello
           retention-days: 1
+
+      - name: "Create Release"
+        uses: "ergebnis/.github/actions/github/release/create@1.8.0"
+      
