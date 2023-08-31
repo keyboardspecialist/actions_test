@@ -5,6 +5,10 @@ on:
     tags:
       - '**'
     branches: main
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Tag for this release"
 
 concurrency:
   group: ${{ github.ref }}
@@ -37,7 +41,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-     #   if: ${{ env.BRANCH_NAME == 'main' }} && ${{ github.event_name == ""}}
+        if: ${{ env.BRANCH_NAME == 'main' }} && ${{ github.event_name == 'workflow_dispatch'}}
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: ./hello
