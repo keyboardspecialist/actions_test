@@ -23,10 +23,10 @@ jobs:
   Tagger:
     - name: Checkout
       uses: actions/checkout@v3
-      if: ${{ github_event_name == 'workflow_dispatch' }}
+      if: ${{ github.event_name == 'workflow_dispatch' }}
       
     - name: Tag
-      if: ${{ github_event_name == 'workflow_dispatch' }}
+      if: ${{ github.event_name == 'workflow_dispatch' }}
       run: git tag -a ${{ github.events.inputs.release_tag }} -m ${{ github.events.inputs.release_msg }}
 
       - name: "Create Release"
