@@ -28,7 +28,7 @@ jobs:
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
-        if: $BRANCH_NAME == "main"
+        if: $env:BRANCH_NAME == "main"
         with:
           name: ${{runner.os}}-hello
           path: hw_out/
