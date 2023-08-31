@@ -1,0 +1,15 @@
+name: "Release"
+
+on:
+  push:
+    tags:
+      - "**"
+    branches: main
+
+jobs:
+  ReleaseIt:
+    name: "My Release"
+
+    runs-on: ubuntu-latest
+
+    needs: BuildIt
