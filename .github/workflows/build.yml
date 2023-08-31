@@ -26,7 +26,7 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
-      -name: Upload Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         if: BRANCH_NAME == "main"
         with:
