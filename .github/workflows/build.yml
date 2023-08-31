@@ -32,8 +32,10 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
+      #only release and upload on manual dispatch
       - name: "Create Release"
         uses: "ergebnis/.github/actions/github/release/create@1.8.0"
+        if: ${{ env.BRANCH_NAME == 'main' }} && ${{ github.event_name == 'workflow_dispatch'}}
         with:
           github-token: "${{ secrets.BOT_TOKEN }}"
 
