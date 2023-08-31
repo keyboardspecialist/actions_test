@@ -1,0 +1,35 @@
+name: Test-CI
+
+on: push
+
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }} #gives is a valid branch name from push or PR
+
+jobs:
+  BuildIt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v3
+      
+      - name: CPU Cores
+        uses: SimenB/github-actions-cpu-cores@v1
+        id: cpu-cores
+
+      - name: Build It
+        run: |
+          clang++ main.cc -o hello
+
+      -name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        if: BRANCH_NAME == "main"
+        with:
+          name: ${{runner.os}}-hello
+          path: hw_out/
+          retention-days: 1
