@@ -26,10 +26,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         if: ${{ github.event_name == 'workflow_dispatch' }}
-
       - name: Tag
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: git tag -a ${{ github.event.inputs.release_tag }} -m '${{ github.event.inputs.release_msg }}'
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.BOT_TOKEN }}
 
       - name: "Create Release"
         id: release
