@@ -34,7 +34,7 @@ jobs:
           github-token: "${{ secrets.BOT_TOKEN }}"
 
       - name: Upload Release Artifact
-        uses: actions/upload-release-asset@v3
+        uses: actions/upload-release-asset@v1
      #   if: ${{ env.BRANCH_NAME == 'main' }} && ${{ github.event_name == ""}}
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
