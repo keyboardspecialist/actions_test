@@ -1,6 +1,10 @@
 name: Test-CI
 
-on: push
+on:
+  push:
+    tags:
+      - '**'
+    branches: main
 
 concurrency:
   group: ${{ github.ref }}
@@ -24,15 +28,16 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-     #   if: ${{ env.BRANCH_NAME == 'main' }} && ${{ github.event_name == ""}}
-        with:
-          name: ${{runner.os}}-hello
-          path: ./hello
-          retention-days: 1
-
       - name: "Create Release"
         uses: "ergebnis/.github/actions/github/release/create@1.8.0"
         with:
           github-token: "${{ secrets.BOT_TOKEN }}"
+
+      - name: Upload Release Artifact
+        uses: actions/upload-release-asset@v3
+     #   if: ${{ env.BRANCH_NAME == 'main' }} && ${{ github.event_name == ""}}
+        with:
+          upload_url: ${{ RELEASE_UPLOAD_URL }}
+          asset_path: ./hello
+          asset_name: hello_world
+          asset_content_type: application/gzip
