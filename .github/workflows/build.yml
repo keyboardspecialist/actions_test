@@ -29,7 +29,7 @@ jobs:
 
       - name: Tag
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: git tag -a ${{ github.events.inputs.release_tag }} -m ${{ github.events.inputs.release_msg }}
+        run: git tag -a ${{ github.event.inputs.release_tag }} -m ${{ github.event.inputs.release_msg }}
 
       - name: "Create Release"
         id: release
