@@ -26,19 +26,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        
+
       - name: Tag
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: git tag -a ${{ github.events.inputs.release_tag }} -m ${{ github.events.inputs.release_msg }}
 
-        - name: "Create Release"
-          id: release
-          uses: "ergebnis/.github/actions/github/release/create@1.8.0"
-          if: ${{ env.BRANCH_NAME == 'main' && github.event_name == 'workflow_dispatch'}}
-          with:
-            github-token: "${{ secrets.BOT_TOKEN }}"
-        - name: Output URL
-          run: echo "url=${{env.RELEASE_UPLOAD_URL}}" >> "$GITHUB_OUTPUT"
+      - name: "Create Release"
+        id: release
+        uses: "ergebnis/.github/actions/github/release/create@1.8.0"
+        if: ${{ env.BRANCH_NAME == 'main' && github.event_name == 'workflow_dispatch'}}
+        with:
+          github-token: "${{ secrets.BOT_TOKEN }}"
+      - name: Output URL
+        run: echo "url=${{env.RELEASE_UPLOAD_URL}}" >> "$GITHUB_OUTPUT"
 
   BuildIt:
     runs-on: ubuntu-latest
