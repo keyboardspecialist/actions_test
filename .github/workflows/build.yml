@@ -29,6 +29,10 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
+      - name: Zip It
+        run: |
+          tar -czvf hello.tar.gz hello
+
       - name: Artifact Name
         id: artifact
         run: |
@@ -38,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.artifact.outputs.artifact_name }}
-          path: ./hello
+          path: ./hello.tar.gz
           retention-days: 1
 
   BuildItWin:
@@ -59,6 +63,10 @@ jobs:
         run: |
           cl main.cc /Fe:hello.exe
 
+      - name: Zip It
+        run: |
+          7z a -r .\hello.zip .\hello.exe
+
       - name: Artifact Name
         id: artifact
         run: |
@@ -68,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.artifact.outputs.artifact_name }}
-          path: ./hello.exe
+          path: ./hello.zip
           retention-days: 1
 
   ReleaseIt:
@@ -99,7 +107,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./${{ needs.BuildItLinux.outputs.artifact_name }}/hello
+          asset_path: ./${{ needs.BuildItLinux.outputs.artifact_name }}/hello.tar.gz
           asset_name: hello
           asset_content_type: application/gzip
 
@@ -109,6 +117,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./${{ needs.BuildItWin.outputs.artifact_name }}/hello.exe
+          asset_path: ./${{ needs.BuildItWin.outputs.artifact_name }}/hello.zip
           asset_name: hello.exe
           asset_content_type: application/gzip
