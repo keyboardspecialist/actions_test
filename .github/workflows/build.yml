@@ -54,7 +54,7 @@ jobs:
         id: cpu-cores
 
       - uses: ilammy/msvc-dev-cmd@v1
-      
+
       - name: Build It
         run: |
           cl main.cc /Fe:hello.exe
@@ -79,13 +79,13 @@ jobs:
       - name: Download Win Build
         uses: actions/download-artifact@v3
         with:
-          name: ${{ needs.BuildItWin.artifact.outputs.name }}
+          name: ${{ needs.BuildItWin.outputs.outputs.artifact_name }}
           path: ./builds
       
       - name: Download Linux Build
         uses: actions/download-artifact@v3
         with:
-          name: ${{ needs.BuildItLinux.artifact.outputs.name }}
+          name: ${{ needs.BuildItLinux.outputs.artifact_name }}
           path: ./builds
 
       - name: Get release
@@ -100,7 +100,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./builds/${{ needs.BuildItLinux.artifact.outputs.name }}
+          asset_path: ./builds/${{ needs.BuildItLinux.outputs.artifact_name }}
           asset_name: linux-release
           asset_content_type: application/gzip
 
@@ -110,6 +110,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./builds/${{ needs.BuildItWin.artifact.outputs.name }}
+          asset_path: ./builds/${{ needs.BuildItWin.artifact.outputs.artifact_name }}
           asset_name: win-release
           asset_content_type: application/gzip
