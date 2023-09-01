@@ -92,6 +92,8 @@ jobs:
         run: |
           cd builds
           ls -l
+          cd Windows-build
+          ls -l
 
       - name: Get release
         id: get_release
