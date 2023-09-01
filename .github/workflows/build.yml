@@ -16,7 +16,7 @@ jobs:
   BuildItLinux:
     runs-on: ubuntu-latest
     outputs:
-          artifact_name: ${{steps.artifact.outputs.artifact_name}}
+          artifact_name: ${{steps.artifact.outputs.artifact_name}}.gz
     steps:
       - name: Check Out
         uses: actions/checkout@v3
@@ -44,7 +44,7 @@ jobs:
   BuildItWin:
     runs-on: windows-latest
     outputs:
-      artifact_name: ${{steps.artifact.outputs.artifact_name}}
+      artifact_name: ${{steps.artifact.outputs.artifact_name}}.gz
     steps:
       - name: Check Out
         uses: actions/checkout@v3
