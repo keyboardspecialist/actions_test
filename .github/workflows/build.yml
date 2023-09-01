@@ -88,6 +88,11 @@ jobs:
           name: ${{ needs.BuildItLinux.outputs.artifact_name }}
           path: ./builds
 
+      - name: Builds Downloaded
+        run: |
+          cd builds
+          ls -a
+          
       - name: Get release
         id: get_release
         uses: bruceadams/get-release@v1.3.2
