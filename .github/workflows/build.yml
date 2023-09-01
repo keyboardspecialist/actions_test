@@ -31,7 +31,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-        if: ${{ env.BRANCH_NAME == 'main' && github.event_name == 'workflow_dispatch'}}
         with:
           upload_url: ${{ github.event.release.url }}#${{ needs.TagAndMakeRelease.outputs.release_upload_url }}
           asset_path: ./hello
