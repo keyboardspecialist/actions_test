@@ -76,23 +76,11 @@ jobs:
     needs: [BuildItLinux, BuildItWin]
     steps:
 
-      - name: Download Win Build
+      - name: Download Builds
         uses: actions/download-artifact@v3
-        with:
-          name: ${{ needs.BuildItWin.outputs.outputs.artifact_name }}
-          path: ./builds
-      
-      - name: Download Linux Build
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ needs.BuildItLinux.outputs.artifact_name }}
-          path: ./builds
 
       - name: Builds Downloaded
         run: |
-          cd builds
-          ls -l
-          cd Windows-build
           ls -l
 
       - name: Get release
@@ -107,7 +95,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./builds
+          asset_path: ./
           asset_name: ${{ needs.BuildItLinux.outputs.artifact_name }}
           asset_content_type: application/gzip
 
@@ -117,6 +105,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./builds
+          asset_path: ./
           asset_name: ${{ needs.BuildItWin.artifact.outputs.artifact_name }}
           asset_content_type: application/gzip
