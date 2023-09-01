@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.artifact.outputs.artifact_name }}
-          path: ./hello.tar.gz
+          path: ./hello.zip
           retention-days: 1
 
   ReleaseIt:
