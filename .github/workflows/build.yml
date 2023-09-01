@@ -15,6 +15,8 @@ jobs:
 
   BuildItLinux:
     runs-on: ubuntu-latest
+    outputs:
+          artifact_name: ${{runner.os}}-build
     steps:
       - name: Check Out
         uses: actions/checkout@v3
@@ -27,17 +29,22 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
+      - name: Artifact Name
+        run: |
+          echo "artifact_name=${{runner.os}}-build" >> "$GITHUB_OUTPUT"
+          
       - name: Upload Artifacts
         id: artifact
         uses: actions/upload-artifact@v3
-        outputs:
-          name: ${{runner.os}}-build
         with:
           name: ${{runner.os}}-build
           path: ./hello
+          retention-days: 1
 
   BuildItWin:
     runs-on: windows-latest
+    outputs:
+      artifact_name: ${{runner.os}}-build
     steps:
       - name: Check Out
         uses: actions/checkout@v3
@@ -50,14 +57,17 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
+      - name: Artifact Name
+        run: |
+          echo "artifact_name=${{runner.os}}-build" >> "$env:GITHUB_OUTPUT"
+
       - name: Upload Artifacts
         id: artifact
         uses: actions/upload-artifact@v3
-        outputs:
-          name: ${{runner.os}}-build
         with:
-          name: ${{runner.os}}-build
+          name: ${{ outputs.artifact_name }}
           path: ./hello
+          retention-days: 1
 
   ReleaseIt:
     runs-on: ubuntu-latest
