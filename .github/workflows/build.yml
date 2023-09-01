@@ -37,7 +37,3 @@ jobs:
           asset_path: ./hello
           asset_name: hello_world
           asset_content_type: application/gzip
-
-  ReleaseIt:
-    runs-on: ubuntu-latest
-    needs: [BuildIt]
