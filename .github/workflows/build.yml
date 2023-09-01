@@ -2,7 +2,7 @@ name: Test-CI
 
 on:
   release:
-    type: [created]
+    types: [published]
 
 concurrency:
   group: ${{ github.ref }}
