@@ -27,12 +27,18 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+
       - name: Upload Release Artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.url }}#${{ needs.TagAndMakeRelease.outputs.release_upload_url }}
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./hello
           asset_name: hello_world
           asset_content_type: application/gzip
