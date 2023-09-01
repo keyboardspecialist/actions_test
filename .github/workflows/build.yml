@@ -82,6 +82,10 @@ jobs:
       - name: Builds Downloaded
         run: |
           ls -l
+          cd Linux-build
+          ls -l
+          cd ../Windows-build
+          ls -l
 
       - name: Get release
         id: get_release
