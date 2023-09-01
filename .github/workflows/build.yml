@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.artifact.outputs.artifact_name }}
-          path: ./hello.zip
+          path: ./hello.tar.gz
           retention-days: 1
 
   ReleaseIt:
@@ -118,5 +118,5 @@ jobs:
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./${{ needs.BuildItWin.outputs.artifact_name }}/hello.zip
-          asset_name: hello.exe
+          asset_name: hello.zip
           asset_content_type: application/gzip
