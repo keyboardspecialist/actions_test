@@ -13,7 +13,7 @@ env:
 
 jobs:
 
-  BuildIt:
+  BuildItLinux:
     runs-on: ubuntu-latest
     steps:
       - name: Check Out
@@ -27,18 +27,77 @@ jobs:
         run: |
           clang++ main.cc -o hello
 
+      - name: Upload Artifacts
+        id: artifact
+        uses: actions/upload-artifact@v3
+        outputs:
+          name: ${{runner.os}}-build
+        with:
+          name: ${{runner.os}}-build
+          path: ./hello
+
+  BuildItWin:
+    runs-on: windows-latest
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v3
+      
+      - name: CPU Cores
+        uses: SimenB/github-actions-cpu-cores@v1
+        id: cpu-cores
+
+      - name: Build It
+        run: |
+          clang++ main.cc -o hello
+
+      - name: Upload Artifacts
+        id: artifact
+        uses: actions/upload-artifact@v3
+        outputs:
+          name: ${{runner.os}}-build
+        with:
+          name: ${{runner.os}}-build
+          path: ./hello
+
+  ReleaseIt:
+    runs-on: ubuntu-latest
+    needs: [BuildItLinux, BuildItWin]
+    steps:
+
+      - name: Download Win Build
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.BuildItWin.artifact.outputs.name }}
+          path: ./builds
+      
+      - name: Download Linux Build
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.BuildItLinux.artifact.outputs.name }}
+          path: ./builds
+
       - name: Get release
         id: get_release
         uses: bruceadams/get-release@v1.3.2
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
 
-      - name: Upload Release Artifact
+      - name: Upload Linux Release Artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./hello
-          asset_name: hello_world
+          asset_path: ./builds/${{ needs.BuildItLinux.artifact.outputs.name }}
+          asset_name: linux-release
+          asset_content_type: application/gzip
+
+      - name: Upload Win Release Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./builds/${{ needs.BuildItWin.artifact.outputs.name }}
+          asset_name: win-release
           asset_content_type: application/gzip
