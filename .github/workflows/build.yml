@@ -99,7 +99,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./${{ needs.BuildItLinux.outputs.artifact_name }}
+          asset_path: ./${{ needs.BuildItLinux.outputs.artifact_name }}/hello
           asset_name: hello
           asset_content_type: application/gzip
 
@@ -109,6 +109,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./${{ needs.BuildItWin.artifact.outputs.artifact_name }}
+          asset_path: ./${{ needs.BuildItWin.artifact.outputs.artifact_name }}/hello.exe
           asset_name: hello.exe
           asset_content_type: application/gzip
