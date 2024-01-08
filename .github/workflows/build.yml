@@ -50,6 +50,10 @@ jobs:
     outputs:
       artifact_name: ${{steps.artifact.outputs.artifact_name}}
     steps:
+      - name: Get Drive Size
+        run: |
+          Get-PSDrive
+          
       - name: Check Out
         uses: actions/checkout@v3
       
